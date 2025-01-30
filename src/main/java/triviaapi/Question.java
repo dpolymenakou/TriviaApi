@@ -6,9 +6,9 @@ public class Question {
 	private String category;
 	private String type;
 	private String difficulty;
-	private String Question;
-	private String correctAnswer;
-	private List<String> incorrectAnswers;
+	private String question;
+	private String correct_answer;
+	private List<String> incorrect_answers;
 
 //Getters n Setters//
 	public String getCategory() {
@@ -38,27 +38,27 @@ public class Question {
 	}
 
 	public String getQuestion() {
-		return Question;
+		return question;
 	}
 
 	public void setQuestion(String question) {
-		this.Question = question;
+		this.question = question;
 	}
 
-	public String getCorrectAnswer() {
-		return correctAnswer;
+	public String getCorrectΑnswer() {
+		return correct_answer;
 	}
 
-	public void setCorrectAnswer(String correctAnswer) {
-		this.correctAnswer = correctAnswer;
+	public void setCorrectAnswer(String correct_answer) {
+		this.correct_answer = correct_answer;
 	}
 
 	public List<String> getIncorrectAnswers() {
-		return incorrectAnswers;
+		return incorrect_answers;
 	}
 
-	public void setIncorrectAnswers(List<String> incorrectAnswers) {
-		this.incorrectAnswers = incorrectAnswers;
+	public void setIncorrectAnswers(List<String> incorrect_answers) {
+		this.incorrect_answers = incorrect_answers;
 	}
 }
 

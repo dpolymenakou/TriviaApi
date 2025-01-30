@@ -1,34 +1,77 @@
 package triviaapi;
 
+import org.apache.commons.text.StringEscapeUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TriviaApiClient {
-	private static final String API_URL = "https://opentdb.com/api.php?amount=10&type=multiple";
 	
-	public Response getTriviaQuestions() throws Exception {
-		URL url = new URL(API_URL);
+	//URL για το API
+	private static final String API_URL = "https://opentdb.com/api.php";
+	
+	//Ανάκτηση ερωτήσεων με παραμέτρους 
+	public Response getTriviaQuestions(int amount, String type, String category,String difficulty) throws Exception {
+		
+	// Δημιουργία URL με παραμέτρους
+	StringBuilder urlString = new StringBuilder (API_URL);
+	urlString.append("?amount=").append(amount);
+	
+		if (type !=null && !type.isEmpty()) {
+			urlString.append("&type=").append(type);
+		}
+		if (category != null && !category.isEmpty()) {
+			urlString.append("&category=").append(category);
+		}
+		 if (difficulty != null && !difficulty.isEmpty()) {
+			 urlString.append("&difficulty=").append(difficulty);
+	        }
+	
+	//URL που περιλαμβάνει τις παραμετρους	
+		URL url = new URL(urlString.toString());
+		
+	//Σύνδεση με το API
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
-
+		
+	//Αναγνωση απο το API
 		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		StringBuilder response = new StringBuilder();
 		String line;
 		while ((line=reader.readLine()) != null) {
 			response.append(line);
 		}
-
 		reader.close();
-
-//json-αντικειμενο//
+		
+		System.out.println("Raw JSON Response: " + response.toString());
+		
+	//json-αντικειμενο//
 		Gson gson = new Gson();
 		try{
-			return gson.fromJson(response.toString(), Response.class);
+			Response triviaResponse = gson.fromJson(response.toString(), Response.class);
+			
+			for (Question q: triviaResponse.getResults() ) {
+				 q.setCategory(StringEscapeUtils.unescapeHtml4(q.getCategory()));
+				 q.setQuestion(StringEscapeUtils.unescapeHtml4(q.getQuestion()));
+			        q.setCorrectAnswer(StringEscapeUtils.unescapeHtml4(q.getCorrectΑnswer()));
+			        
+			        List<String> decodedIncorrectAnswers= new ArrayList<>();
+			        for (String incorrect : q.getIncorrectAnswers()) {
+			            decodedIncorrectAnswers.add(StringEscapeUtils.unescapeHtml4(incorrect));
+			        }
+			        q.setIncorrectAnswers(decodedIncorrectAnswers);
+			    }
+
+			    return triviaResponse;
 		} 	catch (JsonSyntaxException e) {
-}
-}
-}
+			System.out.println("Error passing JSON: " + e.getMessage());
+			return null;
+			}
+		}
+	}
+
