@@ -1,5 +1,10 @@
-
 package triviaapi;
+
+import java.util.List;
+import java.util.Scanner;
+import triviaapi.TriviaApiClient;
+import triviaapi.Question;
+import triviaapi.Response;
 
 
 public class TriviaApp {
@@ -8,7 +13,7 @@ public class TriviaApp {
 
 	int amount = 5; // αριθμος ερωτησεων
 	String type = "multiple";  // Τύπος ερωτήσεων
-    String category = "23";  // Κατηγορία 
+    String category = "12";  // Κατηγορία 
     String difficulty = "easy";  // Βαθμός δυσκολίας
     
 		try {
@@ -21,7 +26,8 @@ public class TriviaApp {
 					System.out.println("Category: " + question.getCategory());
 					System.out.println("Difficulty: " + question.getDifficulty());
 					System.out.println("Question: " + question.getQuestion());
-					System.out.println("Correct Answer: " + question.getCorrectΑnswer());
+					System.out.println("Answers: " + question.getShuffledAnswers());
+					System.out.println("Correct Answer: " + question.getCorrectAnswer());
 					System.out.println("Incorrect Answer: " + question.getIncorrectAnswers());
 					System.out.println("-----");
 					

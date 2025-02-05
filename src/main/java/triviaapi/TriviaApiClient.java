@@ -39,6 +39,11 @@ public class TriviaApiClient {
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
 		
+	//Σε περιπτωση Σφάλματος με το APΙ ή απάντησης
+		int responseCode = connection.getResponseCode();
+		if (responseCode != 200) {
+		    throw new RuntimeException("HTTP error code: " + responseCode);	
+		}
 	//Αναγνωση απο το API
 		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		StringBuilder response = new StringBuilder();
@@ -58,7 +63,7 @@ public class TriviaApiClient {
 			for (Question q: triviaResponse.getResults() ) {
 				 q.setCategory(StringEscapeUtils.unescapeHtml4(q.getCategory()));
 				 q.setQuestion(StringEscapeUtils.unescapeHtml4(q.getQuestion()));
-			        q.setCorrectAnswer(StringEscapeUtils.unescapeHtml4(q.getCorrectΑnswer()));
+			        q.setCorrectAnswer(StringEscapeUtils.unescapeHtml4(q.getCorrectAnswer()));
 			        
 			        List<String> decodedIncorrectAnswers= new ArrayList<>();
 			        for (String incorrect : q.getIncorrectAnswers()) {
@@ -73,5 +78,5 @@ public class TriviaApiClient {
 			return null;
 			}
 		}
-	}
+	}	
 

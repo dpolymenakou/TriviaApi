@@ -1,6 +1,8 @@
 package triviaapi;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Question {
 	private String category;
@@ -45,7 +47,7 @@ public class Question {
 		this.question = question;
 	}
 
-	public String getCorrectΑnswer() {
+	public String getCorrectAnswer() {
 		return correct_answer;
 	}
 
@@ -60,5 +62,11 @@ public class Question {
 	public void setIncorrectAnswers(List<String> incorrect_answers) {
 		this.incorrect_answers = incorrect_answers;
 	}
-}
+	public List<String> getShuffledAnswers() {
+	    List<String> allAnswers = new ArrayList<>(incorrect_answers);
+	    allAnswers.add(correct_answer); 
+	    Collections.shuffle(allAnswers);
+	    return allAnswers;
+	}
+	}
 
