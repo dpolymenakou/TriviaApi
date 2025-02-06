@@ -1,4 +1,4 @@
-package triviaapi;
+package src.main.java.triviaapi;
 
 import org.apache.commons.text.StringEscapeUtils;
 import com.google.gson.Gson;

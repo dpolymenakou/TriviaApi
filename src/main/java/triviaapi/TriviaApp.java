@@ -1,4 +1,4 @@
-package triviaapi;
+package src.main.java.triviaapi;
 
 import java.util.List;
 import java.util.Scanner;
